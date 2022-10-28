@@ -1,7 +1,7 @@
 from random import choice
 
 def read_cw_configs():
-    configs = open("mini_cw_configs.txt", "r").read()
+    configs = open("raw_data/mini_cw_configs.txt", "r").read()
     configs = configs.split("===========================")
     return configs
 
@@ -13,7 +13,7 @@ def main():
     clean_cw_config = cw_config.replace(" ","").strip("\n ")
 
     ## save configuration to file
-    f = open("cw_config.txt", "w")
+    f = open("generated_data/cw_config.txt", "w")
     f.write(clean_cw_config)
     f.close()
 

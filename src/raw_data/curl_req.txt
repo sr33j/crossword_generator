@@ -1,0 +1,16 @@
+curl 'https://api.foracross.com/api/puzzle' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Origin: https://downforacross.com' \
+  -H 'Referer: https://downforacross.com/' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: cross-site' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Chromium";v="106", "Google Chrome";v="106", "Not;A=Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  --data-raw $'{"puzzle":{"grid":[[".",".","C","U","P"],["S","W","O","R","E"],["H","I","N","G","E"],["O","T","T","E","R"],["T","H","E",".","."]],"circles":[],"shades":[],"info":{"type":"Mini Puzzle","title":"Gen #1","author":"Non-Compete Party","description":""},"clues":{"across":[null," Smallest standard unit of liquid measurement",null,null," Home to the thundering sound of Niagara Falls",null," Connecting device"," Aquatic mustelid"," article"],"down":[null," Voltaire\'s pen name"," To stimulate or motivate"," A social equal"," Fired a gun"," In the company of"]},"private":true},"pid":23982,"isPublic":false}' \
+  --compressed
