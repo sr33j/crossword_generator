@@ -4,7 +4,7 @@ use fillgrid::render_grid;
 use std::fs;
 
 fn load_dictionary() -> Vec<(String, i32)> {
-    fs::read_to_string("/Users/srijithpoduval/Documents/Projects/crossword_generator/src/raw_data/all_word_scores_no_title.csv")
+    fs::read_to_string("/Users/srijithpoduval/Documents/Projects/crossword_generator/src/raw_data/all_word_scores_new_scores.csv")
         .expect("Something went wrong reading the file")
         .lines()
         .map(|line| {

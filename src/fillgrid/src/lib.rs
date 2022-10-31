@@ -230,7 +230,8 @@ fn sort_slot_options(grid_config: &mut GridConfig) {
             // increasing the weight of `fill_score` relative to the other two will reduce fill
             // time.
             -1 * (
-                (fill_score * 900.0) as i64 +
+                // was 900 before
+                (fill_score * 0.0) as i64 +
                     (scrabble_score * 5) as i64 +
                     (word.score * 5.0) as i64
             )

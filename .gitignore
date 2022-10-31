@@ -1,5 +1,9 @@
 .DS_Store
 
+*.puz
+*.csv
+*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -11,7 +11,7 @@ def main():
     os.system("cd fillgrid && cargo run")
     print("filled grid...")
 
-    # then generate the puzzle file
+    ## then generate the puzzle file
     os.system("cd ..")
     os.system("python generate_puz_file.py")
     print("generated puz file...")
