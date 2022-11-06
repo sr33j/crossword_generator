@@ -2,6 +2,7 @@ import openai
 import pandas as pd
 import puz
 import datetime
+import sys
 
 OPENAI_API_KEY="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"
 openai.api_key = OPENAI_API_KEY
@@ -23,19 +24,19 @@ def generate_clue(word: str) -> str:
         response = openai.Completion.create(
             model="text-davinci-002",
             prompt=get_prompt(word),
-            temperature=.5,
+            temperature=1,
         )
         clue = response.choices[0]['text']
         if not word.lower() in clue.lower():
             if 'Word:' in clue:
-                return clue.split('Word:')[0]
-            elif 'Clue:' in clue:
-                return clue.split('Clue:')[0]
-            else:
+                clue = clue.split('Word:')[0]
+            if 'Clue:' in clue:
+                clue = clue.split('Clue:')[0]
+            if clue.strip() != "":
                 return clue
 
 
-    return ""
+    assert False, "Could not generate clue for word: {}".format(word)
 
 """
 Return a list of puzzle information where each element is the word,
@@ -97,11 +98,8 @@ def create_puz_file(cw_data, grid_width, grid_height):
     ## save the puz file
     puzzle.save("generated_data/crobot_"+str(datetime.date.today())+".puz")
 
-def main():
+def initial_generation(grid, grid_width, grid_height):
     ## get all words from the grid
-    grid = open("generated_data/cw_output.txt", "r").read()
-    grid_width = len(grid.split("\n")[0])
-    grid_height = len(grid.split("\n"))
 
     all_word_data = get_words_from_grid(grid)
 
@@ -113,6 +111,29 @@ def main():
         word_info.append(clue)
     
     cw_data = pd.DataFrame(all_word_data, columns=["word", "start_pos", "direction", "clue"])
+    return cw_data
+
+def regenerate_clues(words_to_fix):
+    cw_data = pd.read_csv("generated_data/cw_data.csv")
+    for word in words_to_fix:
+        print("Regenerating clue for word: {}".format(word))
+        clue = generate_clue(word)
+        cw_data.loc[cw_data["word"] == word, "clue"] = clue
+    return cw_data
+
+def main():
+    grid = open("generated_data/cw_output.txt", "r").read()
+    grid_width = len(grid.split("\n")[0])
+    grid_height = len(grid.split("\n"))
+    cw_data = None
+    
+    if len(sys.argv) == 1:
+        cw_data = initial_generation(grid, grid_width, grid_height)
+    else:
+        words_to_fix = sys.argv[1:]
+        cw_data = regenerate_clues(words_to_fix)
+    print("CROSSWORD DATA")
+    print(cw_data.to_string())
 
     ## save crossword data as a csv
     cw_data.to_csv("generated_data/cw_data.csv", index=False)
