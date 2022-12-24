@@ -3,9 +3,11 @@ import pandas as pd
 import puz
 import datetime
 import sys
+import os
+from dotenv import load_dotenv
 
-OPENAI_API_KEY="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"
-openai.api_key = OPENAI_API_KEY
+load_dotenv()
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 N_ATTEMPTS = 5
 
@@ -44,8 +46,11 @@ the position the word starts, and if it is across or down
 """
 def get_words_from_grid(grid):
     words = []
-    rows = grid.split("\n")
-
+    rows = None
+    if isinstance(grid, str):
+        rows = grid.split("\n")
+    else:
+        rows = grid
     ## start with across
     for i in range(len(rows)):
         line = rows[i]

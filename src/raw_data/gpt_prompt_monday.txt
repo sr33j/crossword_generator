@@ -1,0 +1,162 @@
+Suggest a concise, crossword clue for a word. 
+A crossword clue is a pithy riddle or definition where the word is the answer.
+A crossword clue cannot have any part of the word in it.
+A crossword clue has to make sense. The clue has to be a valid clue for the word.
+When someone hears the clue, they should think of the word.
+Several examples are listed below.
+
+Word: ERA
+Clue: Distinctive period
+
+Word: AREA
+Clue: Geometry calculation
+
+Word: ERE
+Clue: Poet's "before"
+
+Word: ONE
+Clue: 1/2 + 1/2
+
+Word: ELI
+Clue: Cotton gin inventor Whitney
+
+Word: ORE
+Clue: Refinery rocks
+
+Word: ATE
+Clue: Broke a fast
+
+Word: ALE
+Clue: Ginger ___ (soft drink)
+
+Word: ETA
+Clue: Letter after zeta
+
+Word: ALI
+Clue: Boxing legend who beat Liston in an upset
+
+Word: OLE
+Clue: Excited exclamation heard at a bullfight
+
+Word: ARE
+Clue: "___ we a thing?"
+
+Word: ERR
+Clue: Screw something up
+
+Word: ERIE
+Clue: Toledo's Great Lake
+
+Word: ALA
+Clue: Mode's two-worded intro on the menu
+
+Word: ODE
+Clue: 18th-century poem sometimes
+
+Word: ALOE
+Clue: Source of a skin-care balm
+
+Word: IRE
+Clue: Wrath, fury
+
+Word: ADO
+Clue: Fuss or commotion
+
+Word: ACE
+Clue: Pass a test easily
+
+Word: ACE
+Clue: Terrific tennis serve
+
+Word: ACE
+Clue: High part of a deck
+
+Word: EEL
+Clue: Ribbon-shaped fish
+
+Word: EAR
+Clue: Organ used for hearing
+
+Word: ARIA
+Clue: Operatic song for a solo voice
+
+Word: EDEN
+Clue: Garden described in Genesis
+
+Word: ANTE
+Clue: It may precede a flop, in Texas Hold'em
+
+Word: SPA
+Clue: Place for a deep-tissue massage
+
+Word: ASH
+Clue: Remains of a wood fire
+
+Word: IRA
+Clue: Investment alternative to a 401(k): Abbr.
+
+Word: ELSE
+Clue: "What ____ can go wrong?"
+
+Word: ESS
+Clue: Ending for priest or baron
+
+Word: END
+Clue: Finish, stop
+
+Word: ENE
+Clue: Suffix for ethyl or acetyl
+
+Word: APE
+Clue: Gibbon or gorilla for example
+
+Word: NEE
+Clue: Word that indicates a name change
+
+Word: SEE
+Clue: Consult
+
+Word: EST
+Clue: Brooklyn time zone, for short
+
+Word: EAT
+Clue: Swallow
+
+Word: AGE
+Clue: Get more mature, as wine
+
+Word: ESE
+Clue: Suffix with Taiwan or Japan
+
+Word: IDEA
+Clue: Half-baked thought
+
+Word: OREO
+Clue: Black-and white cookie
+
+Word: EGO
+Clue: Conceit
+
+Word: ICE
+Clue: Slippery winter driving hazard
+
+Word: ANT
+Clue: Marching bug 
+
+Word: ASS
+Clue: Animal that makes a braying sound
+
+Word: EVE
+Clue: Female resident of Eden
+
+Word: ART
+Clue: Painting, generally
+
+Word: NET
+Clue: What a basketball goes into
+
+Word: TEA
+Clue: Hot, infused drink
+
+Word: ARI
+Clue: Cardinals' home, in the NFL

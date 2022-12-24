@@ -4,17 +4,17 @@ import puz
 import tweepy
 import pandas as pd
 import datetime
+import os
+from dotenv import load_dotenv
+
 
 def tweet(new_pid):
-    TWITTER_API_KEY = "yVvoMKSiAnkNhpqixNzycL2ys"
-    TWITTER_API_SECRET = "K984ssdTl4gjaHaPzicg1foD8lzFCHrtLLcl7Xgkhq3pBQGV4x"
-    TWITTER_BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAPSAigEAAAAAQJC4PIEUVuuP2E%2FoYfGAPewRV3k%3DOYQFNgNA5gS4vG7b9eiAqnAsIuL5hGEfs4AzFWANaENoCWrotO"
+    load_dotenv()
 
-    TWITTER_API_ACCESS_TOKEN = "1585473036605612036-YI6uq109cyI9I1P3gVi20KaJ6lJMGd"
-    TWITTER_API_ACCESS_SECRET = "NrUmZ7WI6uZ5zAp9Cx7AlG9rho1VyGnNB32b516oXJfvn"
-
-    TWITTER_CLIENT_ID = "Smp5aW1fcy0wcUo1R3NpZWxhRVk6MTpjaQ"
-    TWITTER_CLIENT_SECRET = "HVY737ulG_Y5Cj-4OrXNlNNfHruhjv2AMBCzWlGLSWg5lc0OQw"
+    TWITTER_API_KEY = os.environ['TWITTER_API_KEY']
+    TWITTER_API_SECRET = os.environ['TWITTER_API_SECRET']
+    TWITTER_API_ACCESS_TOKEN = os.environ['TWITTER_API_ACCESS_TOKEN']
+    TWITTER_API_ACCESS_SECRET = os.environ['TWITTER_API_ACCESS_SECRET']
 
     
     auth = tweepy.OAuthHandler(TWITTER_API_KEY,TWITTER_API_SECRET)
@@ -41,10 +41,10 @@ def get_last_pid():
 def get_grid(puzzle):
     index = 0
     grid = []
-    for h in range(p.height):
+    for h in range(puzzle.height):
         row = []
-        for w in range(p.width):
-            row.append(p.solution[index])
+        for w in range(puzzle.width):
+            row.append(puzzle.solution[index])
             index += 1
         grid.append(row)
     return grid
@@ -116,7 +116,11 @@ def upload_to_downforacross(puzzle, puzzle_data):
     print(response.text)
     return new_pid
 
-p = puz.read("generated_data/crobot_"+str(datetime.date.today())+".puz")
-puzzle_data = pd.read_csv("generated_data/cw_data.csv")
-new_pid = upload_to_downforacross(p, puzzle_data)
-tweet(new_pid)
+def main():
+    p = puz.read("generated_data/crobot_"+str(datetime.date.today())+".puz")
+    puzzle_data = pd.read_csv("generated_data/cw_data.csv")
+    new_pid = upload_to_downforacross(p, puzzle_data)
+    tweet(new_pid)
+
+if __name__ == "__main__":
+    main()
