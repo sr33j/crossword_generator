@@ -5,6 +5,9 @@ import datetime
 import sys
 import os
 from dotenv import load_dotenv
+from twilio.rest import Client
+import uuid
+
 
 load_dotenv()
 openai.api_key = os.environ['OPENAI_API_KEY']
@@ -24,7 +27,7 @@ Clue: """.format(
 def generate_clue(word: str) -> str:
     for i in range(N_ATTEMPTS):
         response = openai.Completion.create(
-            model="text-davinci-002",
+            model="text-davinci-003",
             prompt=get_prompt(word),
             temperature=1,
         )
@@ -93,7 +96,7 @@ def create_puz_file(cw_data, grid_width, grid_height):
     ## create the puz file
     puzzle = puz.Puzzle()
     puzzle.title = "TODAY'S CROBOT " + str(datetime.date.today())
-    puzzle.author = "twitter: @nocompeteparty"
+    puzzle.author = "twitter: @noncompeteparty"
     puzzle.width = grid_width
     puzzle.height = grid_height
     puzzle.fill = '-' * grid_width * grid_height
@@ -138,7 +141,15 @@ def main():
         words_to_fix = sys.argv[1:]
         cw_data = regenerate_clues(words_to_fix)
     print("CROSSWORD DATA")
-    print(cw_data.to_string())
+
+    # print(cw_data.to_string())
+    # send the crossword data to my phone
+    client = Client(os.environ['twilio_account_sid'], os.environ['twilio_auth_token']) 
+    uid = str(uuid.uuid4())
+    message = client.messages.create(  
+                                messaging_service_sid=os.environ['messaging_service_sid'], 
+                                body=cw_data.to_string() + '\n' + uid,      
+                                to=os.environ['sri_phone_number'])
 
     ## save crossword data as a csv
     cw_data.to_csv("generated_data/cw_data.csv", index=False)
