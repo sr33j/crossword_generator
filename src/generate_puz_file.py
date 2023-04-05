@@ -142,14 +142,15 @@ def main():
         cw_data = regenerate_clues(words_to_fix)
     print("CROSSWORD DATA")
 
-    # print(cw_data.to_string())
+    print(cw_data.to_string())
     # send the crossword data to my phone
-    client = Client(os.environ['twilio_account_sid'], os.environ['twilio_auth_token']) 
-    uid = str(uuid.uuid4())
-    message = client.messages.create(  
-                                messaging_service_sid=os.environ['messaging_service_sid'], 
-                                body=cw_data.to_string() + '\n' + uid,      
-                                to=os.environ['sri_phone_number'])
+    if len(cw_data.to_string < 1600):
+        client = Client(os.environ['twilio_account_sid'], os.environ['twilio_auth_token']) 
+        uid = str(uuid.uuid4())
+        message = client.messages.create(  
+                                    messaging_service_sid=os.environ['messaging_service_sid'], 
+                                    body=cw_data.to_string() + '\n' + uid,      
+                                    to=os.environ['sri_phone_number'])
 
     ## save crossword data as a csv
     cw_data.to_csv("generated_data/cw_data.csv", index=False)

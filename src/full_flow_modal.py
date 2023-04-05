@@ -18,12 +18,12 @@ image_with_rust = image_with_rust.pip_install_from_requirements("../requirements
 stub = modal.Stub("crossgen",
                   image=image_with_rust,
                   secret=modal.Secret.from_name("crossgen_secrets"),
-                  mounts=[modal.Mount(local_dir="/Users/srijithpoduval/Documents/Projects/crossword_generator/src/", remote_dir="/root/")]
+                  mounts=[modal.Mount.from_local_dir("/Users/srijithpoduval/Documents/Projects/crossword_generator/src/", remote_path="/root/")]
                   )
 
 volume = modal.SharedVolume()
 
-@stub.function(schedule=modal.Cron("0 12 * * *"), secret=modal.Secret.from_name("crossgen_secrets"), shared_volumes={"/root/generated_data": volume})
+@stub.function(schedule=modal.Cron("0 12 * * *"), secret=modal.Secret.from_name("crossgen_secrets"), shared_volumes={"/root/generated_data": volume}, timeout=3600)
 def full_flow():
     import update_word_scores
     import choose_grid
@@ -48,6 +48,33 @@ def full_flow():
     # then generate the puzzle file
     subprocess.run(["python", "generate_puz_file.py"], check=True)
     print("generated puz file...")
+
+## PARALLELIZE ON DIFFERENT GRID INPUTS
+## AS SOON AS ONE SUCCEDS THROW AN EXCEPTION
+## MAP THIS FUNCTION YOU CREATE ON THE GRID INPUTS: https://modal.com/docs/guide/scale#parallel-execution-of-inputs
+@stub.function(secret=modal.Secret.from_name("crossgen_secrets"), shared_volumes={"/root/generated_data": volume}, timeout=3600)
+def fillgrid(grid):
+    ## pass grid in as command line argument
+    try:
+        subprocess.run(["/root/.cargo/bin/cargo", "build"], cwd="fillgrid", check=True)
+        subprocess.run(["/root/.cargo/bin/cargo", "run", "--",grid], cwd="fillgrid", check=True)
+    except:
+        print("this grid run failed " + grid)
+    assert False, "raise Exception to stop other runs"
+
+@stub.function(secret=modal.Secret.from_name("crossgen_secrets"), shared_volumes={"/root/generated_data": volume}, timeout=3600)
+def parallelize_cw_generation():
+    N = 10
+    import choose_grid
+    import random
+    all_grids = choose_grid.read_cw_configs()
+    clean_grids = list(map(lambda g: g.replace(" ","").strip("\n "), all_grids))
+    size_15_grids = list(filter(lambda g: len(g.split("\n")[0]) == 15, clean_grids))
+    ## choose N random grids
+    grids = random.sample(size_15_grids, N)
+    ## these will be the inputs for fill grid run
+    results = list(fillgrid.map(grids))
+
 
 @stub.wsgi(secret=modal.Secret.from_name("crossgen_secrets"), shared_volumes={"/root/generated_data": volume})
 def flask_app():
@@ -83,6 +110,19 @@ def flask_app():
 
     return app
 
+@stub.local_entrypoint
+def main():
+    parallelize_cw_generation.call()
 
 if __name__ == "__main__":
-    stub.deploy()
+    # stub.deploy()
+    # main()
+
+    N = 10
+    import choose_grid
+    import random
+    all_grids = choose_grid.read_cw_configs()
+    clean_grids = list(map(lambda g: g.replace(" ","").strip("\n "), all_grids))
+    size_15_grids = list(filter(lambda g: len(g.split("\n")[0]) == 15, clean_grids))
+    ## get lengths of all entries
+    print(size_15_grids[0])

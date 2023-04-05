@@ -19,10 +19,19 @@ fn load_dictionary() -> Vec<(String, i32)> {
 }
 
 fn main() {
+    // if the grid is formatted as a command line argument, use that. otherwise load it from a file
+    
+    
+    let grid = std::env::args()
+        .nth(1)
+        .unwrap_or_else(|| fs::read_to_string("/root/generated_data/cw_config.txt").unwrap());
+
     // read in a text file with the grid
-    let grid = fs::read_to_string("/root/generated_data/cw_config.txt")
-        .expect("Something went wrong reading the file");
-    let fmt_grid = "\n".to_owned() + &grid + "\n";    
+    // let grid = fs::read_to_string("/root/generated_data/cw_config.txt")
+
+        // .expect("Something went wrong reading the file");
+    let fmt_grid = "\n".to_owned() + &grid + "\n";
+    // let fmt_grid = grid;    
     let grid_config = generate_grid_config_from_template_string(
         &load_dictionary(), &fmt_grid
     );
